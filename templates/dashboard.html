@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="{{url_for('static',filename='css/output.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+    <link rel="stylesheet"
+        href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+</head>
+
+<body class="bg-blue-200">
+
+    <!-- main div -->
+    <div class="grid grid-flow-col ">
+        <!-- component -->
+        <div x-data="setup()" x-init="$refs.loading.classList.add('hidden');">
+            <div class="flex h-screen antialiased text-gray-900 bg-gray-100 dark:bg-dark dark:text-light">
+
+
+                <!-- Loading screen -->
+                <div x-ref="loading"
+                    class="fixed inset-0 z-50 flex items-center justify-center text-2xl font-semibold text-white bg-blue-600">
+                    Loading.....
+                </div>
+
+                <!-- Sidebar -->
+                <div x-transition:enter="transform transition-transform duration-300"
+                    x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
+                    x-transition:leave="transform transition-transform duration-300"
+                    x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full"
+                    x-show="isSidebarOpen" class="fixed inset-y-0 z-10 flex w-80 ">
+
+                    <!-- Curvy shape -->
+                    <svg class="absolute inset-0 w-full h-full text-white"
+                        style="filter: drop-shadow(10px 0 10px #00000030)" preserveAspectRatio="none"
+                        viewBox="0 0 309 800" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M268.487 0H0V800H247.32C207.957 725 207.975 492.294 268.487 367.647C329 243 314.906 53.4314 268.487 0Z" />
+                    </svg>
+
+                    <!-- Sidebar content -->
+                    <div class="z-10 flex flex-col flex-1 ">
+                        <div class="flex items-center justify-between flex-shrink-0 w-64 p-4">
+                            <!-- Logo -->
+                            <h1 class="text-xl">{{params['blog_name']}}</h1>
+                            <!-- Close btn -->
+                            <button @click="isSidebarOpen = false" class="p-1 rounded-lg focus:outline-none focus:ring">
+                                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                <span class="sr-only">Close sidebar</span>
+                            </button>
+                        </div>
+                        <nav class="flex flex-col flex-1 w-64 p-4 mt-4">
+                            <a href="/" class="flex items-center space-x-2">
+                                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                </svg>
+                                <span>Home</span>
+                            </a>
+                        </nav>
+                        <div class="flex-shrink-0 p-4">
+                            <button class="flex items-center space-x-2">
+                                <svg aria-hidden="true" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <main class="flex flex-col  flex-1 bg-blue-200">
+
+                    <!-- Page Content -->
+                    <!-- search nav -->
+                    <header class="bg-[#6FB3B8] shadow-lg shadow-[#388087] fixed w-full ">
+                        <div class="container mx-auto px-4 py-4 flex items-center justify-between ">
+
+                            <!-- menu bar button -->
+                            <button @click="isSidebarOpen = true"
+                                class=" p-2 text-white bg-black rounded-lg top-6 left-5">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                                <span class="sr-only">Open menu</span>
+                            </button>
+
+                            <!-- search -->
+                            <div class=" px-4 ">
+                                <form>
+                                    <div class="max-w-xl">
+
+                                        <div class="flex space-x-4">
+                                            <div class="flex rounded-md overflow-hidden w-full">
+                                                <input type="text" class="w-full rounded-md rounded-r-none" />
+                                                <button
+                                                    class="bg-indigo-600 text-white px-6  font-semibold rounded-r-md">Go</button>
+                                            </div>
+                                            <button
+                                                class="bg-white px-6 text-lg font-semibold py-3 rounded-md">Clear</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- buttons -->
+                            <nav class="contents">
+                                <ul class="ml-4 xl:w-48 flex items-center justify-end">
+                                    <li class="ml-2 lg:ml-4 relative inline-block">
+                                        <a class="" href="">
+                                            <svg class="h-9 lg:h-10 p-2 text-gray-500" aria-hidden="true"
+                                                focusable="false" data-prefix="far" data-icon="user" role="img"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+                                                class="svg-inline--fa fa-user fa-w-14 fa-9x">
+                                                <path fill="currentColor"
+                                                    d="M313.6 304c-28.7 0-42.5 16-89.6 16-47.1 0-60.8-16-89.6-16C60.2 304 0 364.2 0 438.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-25.6c0-74.2-60.2-134.4-134.4-134.4zM400 464H48v-25.6c0-47.6 38.8-86.4 86.4-86.4 14.6 0 38.3 16 89.6 16 51.7 0 74.9-16 89.6-16 47.6 0 86.4 38.8 86.4 86.4V464zM224 288c79.5 0 144-64.5 144-144S303.5 0 224 0 80 64.5 80 144s64.5 144 144 144zm0-240c52.9 0 96 43.1 96 96s-43.1 96-96 96-96-43.1-96-96 43.1-96 96-96z">
+                                                </path>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li class="ml-2 lg:ml-4 relative inline-block">
+                                        <a class="" href="">
+                                            <div
+                                                class="absolute -top-1 right-0 z-10 bg-yellow-400 text-xs font-bold px-1 py-0.5 rounded-sm">
+                                                3</div>
+                                            <svg class="h-9 lg:h-10 p-2 text-gray-500" aria-hidden="true"
+                                                focusable="false" data-prefix="far" data-icon="heart" role="img"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                                class="svg-inline--fa fa-heart fa-w-16 fa-9x">
+                                                <path fill="currentColor"
+                                                    d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z">
+                                                </path>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li class="ml-2 lg:ml-4 relative inline-block">
+                                        <a class="" href="">
+                                            <div
+                                                class="absolute -top-1 right-0 z-10 bg-yellow-400 text-xs font-bold px-1 py-0.5 rounded-sm">
+                                                12</div>
+                                            <svg class="h-9 lg:h-10 p-2 text-gray-500" aria-hidden="true"
+                                                focusable="false" data-prefix="far" data-icon="shopping-cart" role="img"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                class="svg-inline--fa fa-shopping-cart fa-w-18 fa-9x">
+                                                <path fill="currentColor"
+                                                    d="M551.991 64H144.28l-8.726-44.608C133.35 8.128 123.478 0 112 0H12C5.373 0 0 5.373 0 12v24c0 6.627 5.373 12 12 12h80.24l69.594 355.701C150.796 415.201 144 430.802 144 448c0 35.346 28.654 64 64 64s64-28.654 64-64a63.681 63.681 0 0 0-8.583-32h145.167a63.681 63.681 0 0 0-8.583 32c0 35.346 28.654 64 64 64 35.346 0 64-28.654 64-64 0-18.136-7.556-34.496-19.676-46.142l1.035-4.757c3.254-14.96-8.142-29.101-23.452-29.101H203.76l-9.39-48h312.405c11.29 0 21.054-7.869 23.452-18.902l45.216-208C578.695 78.139 567.299 64 551.991 64zM208 472c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm256 0c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm23.438-200H184.98l-31.31-160h368.548l-34.78 160z">
+                                                </path>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </header>
+
+                    <script src="https://unpkg.com/@themesberg/flowbite@1.1.1/dist/flowbite.bundle.js"></script>
+
+                    <h1 class="text-3xl mt-[7.5rem] mx-14">Welcome To Dashboard !!</h1>
+
+                    <div class="ml-14 my-7 flex flex-row gap-6">
+                        <div class="bg-[#6464E5] w-[20rem] h-[13rem] rounded-md"></div>
+                        <div class="bg-[#6464E5] w-[20rem] h-[13rem] rounded-md"></div>
+                        <div class="bg-[#6464E5] w-[20rem] h-[13rem] rounded-md"></div>
+                        <div class="bg-[#6464E5] w-[20rem] h-[13rem] rounded-md"></div>
+
+                    </div>
+
+                    <!-- table -->
+                    <!-- component -->
+                    <div class="  mb-12 xl:mb-0 px-4 mx-6  mt-5">
+                        <div class=" flex flex-col min-w-0  bg-[#65D5E8]  mb-6 shadow-lg rounded-lg ">
+                            <div class="rounded-t mb-0 px-4 py-3 border-0">
+                                <div class="flex flex-wrap items-center">
+                                    <div class=" w-full px-4 max-w-full flex-grow flex-1">
+                                        <h3 class="font-semibold text-blueGray-700 text-2xl">Blog Posts</h3>
+                                    </div>
+                                    <div class=" w-full px-4 max-w-full flex-grow flex-1 text-right">
+                                        <button
+                                            class="bg-indigo-500 text-white active:bg-indigo-600 text-xl font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button">Add task</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="block w-full overflow-x-auto">
+                                <table class="items-center bg-transparent w-full border-collapse ">
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3  uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center text-xl">
+                                                Sno
+                                            </th>
+                                            <th
+                                                class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center">
+                                                Title
+                                            </th>
+                                            <th
+                                                class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center">
+                                                Date
+                                            </th>
+                                            <th
+                                                class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center">
+
+                                                Action
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for posts in post %}
+
+
+                                        <tr>
+                                            <th
+                                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4  text-blueGray-700 text-center">
+                                                {{posts.sno}}
+                                            </th>
+                                            <td
+                                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4 text-center">
+                                                {{posts.title}}
+                                            </td>
+                                            <td
+                                                class="border-t-0 px-6 align-center border-l-0 border-r-0 text-lg whitespace-nowrap p-4 text-center">
+                                                {{posts.date}}
+                                            </td>
+                                            <td
+                                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4 text-center">
+
+                                                <a href="/edit/{{posts.sno}}">
+                                                <button type="button"
+                                                    class="text-lg px-4 inline-flex items-center gap-x-2  font-semibold rounded-lg border border-transparent text-blue-600 hover:bg-blue-100 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:bg-blue-800/30 dark:hover:text-black dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                                                    Edit
+                                                </button>
+                                            </a>
+
+
+
+
+
+                                                <button type="button"
+                                                    class="text-lg px-4 inline-flex items-center gap-x-2  font-semibold rounded-lg border border-transparent text-blue-600 hover:bg-blue-100 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:bg-blue-800/30 dark:hover:text-black dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                                                    Delete
+                                                </button>
+
+
+                                            </td>
+                                            <td
+                                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center">
+
+
+                                            </td>
+                                        </tr>
+
+                                        {% endfor %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Box of social media -->
+                    <div class="mx-16 my-4 mb-6 flex flex-row gap-5">
+                        <a href="">
+                            <div
+                                class="box bg-[#286FB4] w-[20rem] h-[10rem] rounded-lg flex justify-center items-center">
+                                <img src="/static/twitter (1).png">
+                            </div>
+                        </a>
+                        <a href="">
+                            <div
+                                class="box bg-[#286FB4] w-[20rem] h-[10rem] rounded-lg flex justify-center items-center">
+                                <img src="/static/facebook.png">
+                            </div>
+                        </a>
+                        <a href="">
+                            <div
+                                class="box bg-[#286FB4] w-[20rem] h-[10rem] rounded-lg flex justify-center items-center">
+                                <img src="/static/instagram.png">
+                            </div>
+                        </a>
+                        <a href="">
+                            <div
+                                class="box bg-[#286FB4] w-[20rem] h-[10rem] rounded-lg flex justify-center items-center">
+                                <img src="/static/github.png">
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <!-- footer -->
+                    <footer class="px-4 py-8  dark:text-black">
+                        <div
+                            class="container flex flex-wrap items-center justify-center mx-auto space-y-4 sm:justify-between sm:space-y-0">
+                            <div class="flex flex-row pr-3 space-x-4 sm:space-x-8">
+                                <div
+                                    class="flex items-center justify-center flex-shrink-0 w-12 h-12 rounded-full dark:bg-violet-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor"
+                                        class="w-5 h-5 rounded-full dark:text-gray-900">
+                                        <path
+                                            d="M18.266 26.068l7.839-7.854 4.469 4.479c1.859 1.859 1.859 4.875 0 6.734l-1.104 1.104c-1.859 1.865-4.875 1.865-6.734 0zM30.563 2.531l-1.109-1.104c-1.859-1.859-4.875-1.859-6.734 0l-6.719 6.734-6.734-6.734c-1.859-1.859-4.875-1.859-6.734 0l-1.104 1.104c-1.859 1.859-1.859 4.875 0 6.734l6.734 6.734-6.734 6.734c-1.859 1.859-1.859 4.875 0 6.734l1.104 1.104c1.859 1.859 4.875 1.859 6.734 0l21.307-21.307c1.859-1.859 1.859-4.875 0-6.734z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <ul class="flex flex-wrap items-center space-x-4 sm:space-x-8">
+                                    <li>
+                                        <a rel="noopener noreferrer" href="#">Terms of Use</a>
+                                    </li>
+                                    <li>
+                                        <a rel="noopener noreferrer" href="#">Privacy</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <ul class="flex flex-wrap pl-3 space-x-4 sm:space-x-8">
+                                <li>
+                                    <a rel="noopener noreferrer" href="#">Instagram</a>
+                                </li>
+                                <li>
+                                    <a rel="noopener noreferrer" href="#">Facebook</a>
+                                </li>
+                                <li>
+                                    <a rel="noopener noreferrer" href="#">Twitter</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </footer>
+
+                </main>
+            </div>
+
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.8.1/alpine.js"></script>
+        <script>
+            const setup = () => {
+                return {
+                    isSidebarOpen: false,
+                }
+            }
+        </script>
+
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to toggle the modal visibility
+            function toggleModal() {
+                const modal = document.getElementById("crud-modal");
+                modal.classList.toggle("hidden");
+                document.body.classList.toggle("overflow-hidden");
+            }
+
+            // Find all modal toggle buttons
+            const modalToggleButtons = document.querySelectorAll("[data-modal-toggle]");
+
+            // Attach click event listeners to each modal toggle button
+            modalToggleButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    toggleModal();
+                });
+            });
+
+            // Close the modal when the close button is clicked
+            // Close the modal when the close button is clicked
+            const modalCloseButton = document.getElementById("crud-modal-close-button");
+            if (modalCloseButton) {
+                modalCloseButton.addEventListener("click", function (button) {
+                    toggleModal();
+                });
+            }
+
+
+            // Close the modal when the overlay outside the modal is clicked
+            const modalOverlay = document.getElementById("crud-modal");
+            modalOverlay.addEventListener("click", function (event) {
+                if (event.target === modalOverlay) {
+                    toggleModal();
+                }
+            });
+
+            // Close the modal when the 'Esc' key is pressed
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape") {
+                    toggleModal();
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

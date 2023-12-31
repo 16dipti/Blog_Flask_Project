@@ -1,0 +1,14 @@
+{
+    "params":
+    {
+        "local_server": "True",
+        "local_uri": "mysql://root:@localhost/beyondboundsblog",
+        "prod_uri": "mysql://root:@localhost/beyondboundsblog",
+        "blog_name": "BeyondBoundsBlog",
+        "gmail_user": "m29649927@gmail.com",
+        "gmail_password": "oznehgqhbudtuvci",
+        "no_of_post": 4,
+        "admin_user": "idiot",
+        "admin_password": "mera_idiot"
+    }
+}
