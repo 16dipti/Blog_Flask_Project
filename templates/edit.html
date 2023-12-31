@@ -9,56 +9,51 @@
 </head>
 
 <body class="bg-blue-300">
+
+
  <!-- component -->
 <section class="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 mt-20">
-    <h1 class="text-xl font-bold text-white capitalize dark:text-white">Account settings</h1>
-    <form>
-        <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+    <h1 class="text-xl font-bold text-white capitalize dark:text-white">Edit Your post</h1>
+    <form action="/edit/{{post.sno}}" method="POST">
+        <div class="grid grid-flow-row gap-6 mt-4 ">
+
+            <!-- title -->
             <div>
-                <label class="text-white dark:text-gray-200" for="username">Username</label>
-                <input id="username" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                <label class="text-white dark:text-gray-200" for="username">Title</label>
+                <input value="{{post.title}}" id="title" type="text" name="title" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
             </div>
 
+
+            <!-- Sub title -->
             <div>
-                <label class="text-white dark:text-gray-200" for="emailAddress">Email Address</label>
-                <input id="emailAddress" type="email" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                <label class="text-white dark:text-gray-200" for="emailAddress">Sub title</label>
+                <input value="{{post.sub_title}}" id="sub_title" name="sub_title" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
             </div>
 
+
+            <!-- Slug -->
             <div>
-                <label class="text-white dark:text-gray-200" for="password">Password</label>
-                <input id="password" type="password" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                <label class="text-white dark:text-gray-200" for="password">Slug</label>
+                <input value="{{post.slug}}" id="slug" type="text" name="slug" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
             </div>
 
-            <div>
-                <label class="text-white dark:text-gray-200" for="passwordConfirmation">Password Confirmation</label>
-                <input id="passwordConfirmation" type="password" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-            </div>
-            <div>
-                <label class="text-white dark:text-gray-200" for="passwordConfirmation">Color</label>
-                <input id="color" type="color" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-            </div>
-            <div>
-                <label class="text-white dark:text-gray-200" for="passwordConfirmation">Select</label>
-                <select class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-                    <option>Surabaya</option>
-                    <option>Jakarta</option>
-                    <option>Tangerang</option>
-                    <option>Bandung</option>
-                </select>
-            </div>
-            <div>
-                <label class="text-white dark:text-gray-200" for="passwordConfirmation">Range</label>
-                <input id="range" type="range" class="block w-full py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-            </div>
-            <div>
-                <label class="text-white dark:text-gray-200" for="passwordConfirmation">Date</label>
-                <input id="date" type="date" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-            </div>
+
+            <!-- Content -->
             <div>
                 <label class="text-white dark:text-gray-200" for="passwordConfirmation">Text Area</label>
-                <textarea id="textarea" type="textarea" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"></textarea>
+                <textarea  id="content" name="content" type="textarea" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">{{post.content}}</textarea>
             </div>
+
+
+            <!-- Date -->
             <div>
+                <label class="text-white dark:text-gray-200" for="passwordConfirmation">Date</label>
+                <input id="date" name="date" type="date" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+            </div>
+            
+
+            <!-- Image file -->
+            <!-- <div>
                 <label class="block text-sm font-medium text-white">
                 Image
               </label>
@@ -79,46 +74,22 @@
                   </p>
                 </div>
               </div>
+            </div> -->
+
+            <div>
+                <label class="text-white dark:text-gray-200" for="password">Img file</label>
+                <input value="{{post.img_file}}" id="img_file" type="img_file" name="img_file" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
             </div>
+
+
         </div>
 
         <div class="flex justify-end mt-6">
-            <button class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">Save</button>
+            <button type="submit" class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">Submit</button>
         </div>
     </form>
 </section>
 
- <section class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 mt-20">
-    <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">Account settings</h2>
-    
-    <form>
-        <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-            <div>
-                <label class="text-gray-700 dark:text-gray-200" for="username">Username</label>
-                <input id="username" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-            </div>
-
-            <div>
-                <label class="text-gray-700 dark:text-gray-200" for="emailAddress">Email Address</label>
-                <input id="emailAddress" type="email" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-            </div>
-
-            <div>
-                <label class="text-gray-700 dark:text-gray-200" for="password">Password</label>
-                <input id="password" type="password" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-            </div>
-
-            <div>
-                <label class="text-gray-700 dark:text-gray-200" for="passwordConfirmation">Password Confirmation</label>
-                <input id="passwordConfirmation" type="password" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-            </div>
-        </div>
-
-        <div class="flex justify-end mt-6">
-            <button class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Save</button>
-        </div>
-    </form>
-</section>
 </body>
 
 </html>

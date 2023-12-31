@@ -1,4 +1,4 @@
-from flask import Flask,render_template, request, session
+from flask import Flask,render_template, request, session, redirect
 from flask_mail import Mail
 import datetime
 from db import db
@@ -29,24 +29,54 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = params['prod_uri']
 db.init_app(app)
 
+
+# home page route
 @app.route("/")
 def home():
     post = Posts.query.filter_by().all()[0:params['no_of_post']]
     return render_template("home.html", params=params, post=post)
 
+# about us page route 
 @app.route("/about")
 def about():
     return render_template("about.html", params=params)
 
 
+# edit page route
 @app.route("/edit/<string:sno>", methods = ['GET', 'POST'])
 def edit(sno):
     if ('user' in session and session['user'] == params['admin_user']):
         if request.method == 'POST':
-            pass
+            box_title = request.form.get('title')
+            sub_title = request.form.get('sub_title')
+            slug = request.form.get('slug')
+            content = request.form.get('content')
+            img = request.form.get('img_file')
+            date = datetime.datetime.now()
+
+            if sno == "0":
+                post = Posts(title=box_title, sub_title=sub_title, slug=slug, content=content, img_file=img, date=date)
+                db.session.add(post)
+                db.session.commit()
+            else:
+                post = Posts.query.filter_by(sno=sno).first()
+                post.title = box_title
+                post.sub_title = sub_title
+                post.slug = slug
+                post.content = content
+                post.img_file = img
+                post.date = date
+                db.session.commit()
+
+                return redirect('/edit/'+ sno)
+            
+        post = Posts.query.filter_by(sno=sno).first()
+        return render_template('edit.html', params=params, post=post)
+
     return render_template("edit.html", params=params)
 
 
+# dashboard page route
 @app.route("/dashboard", methods=['GET', 'POST'])
 def dashbord():
     if ('user' in session and session['user'] == params['admin_user']):
@@ -66,6 +96,7 @@ def dashbord():
     return render_template("login.html", params=params)
 
 
+# contact form route
 @app.route("/contact", methods=['GET', 'POST'])
 def contact():
     if (request.method)=='POST':
@@ -97,6 +128,7 @@ def contact():
     return render_template("contact.html", params=params)
 
 
+# post page route
 @app.route("/post/<string:post_slug>", methods=['GET'])
 def post(post_slug):
     post = Posts.query.filter_by(slug=post_slug).first()
