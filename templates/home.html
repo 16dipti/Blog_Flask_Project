@@ -7,9 +7,9 @@
     <h2 class=" text-6xl  tracking-tight font-extrabold leading-tight text-[#FFE715] dark:-[#FFE715]">
         {{params['blog_name']}}</h2>
     <p class="  text-white font-bold  md:text-lg mt-4">Check Out Our Blog Posts Below</p>
-    
+
     <img class="w-10 h-10 mt-10" src="/static/icons8-down-arrow.gif" alt="">
-    
+
 </div>
 
 
@@ -17,30 +17,55 @@
     {% for posts in post %}
     {% set fname = posts.img_file %}
     <div class="transition ease-out delay-150 hover:-translate-y-1 hover:scale-110  duration-150">
-    <a href="/post/{{posts.slug}}"
-        class="bg-white border rounded-xl shadow-sm sm:flex dark:bg-black dark:border-gray-700 dark:shadow-slate-700/[.7] -translate-y-[13.25rem]  h-[15rem] w-[38rem] " >
-        <div
-            class="flex-shrink-0 relative w-full rounded-t-xl overflow-hidden pt-[40%] sm:rounded-s-xl sm:max-w-[15rem] md:rounded-se-none md:max-w-xs">
-            <img class="w-full h-[15rem] absolute top-0 start-0" src="/static/{{fname}}" alt="Image Description">
-        </div>
-        <div class="flex flex-wrap">
-            <div class="p-4 flex flex-col h-full sm:p-7">
-                <h3 class="text-lg font-bold text-gray-800 dark:text-white">
-                    {{posts.title}}
-                </h3>
-                <p class="mt-1 text-gray-500 dark:text-gray-400">
-                    {{posts.sub_title[0:45]}}...
-                </p>
-                <div class="mt-5 sm:mt-auto">
-                    <p class="text-xs text-gray-500 dark:text-gray-500">
-                        Posted admin at {{posts.date}}
+        <a href="/post/{{posts.slug}}"
+            class="bg-white border rounded-xl shadow-sm sm:flex dark:bg-black dark:border-gray-700 dark:shadow-slate-700/[.7] -translate-y-[13.25rem]  h-[15rem] w-[38rem] ">
+            <div
+                class="flex-shrink-0 relative w-full rounded-t-xl overflow-hidden pt-[40%] sm:rounded-s-xl sm:max-w-[15rem] md:rounded-se-none md:max-w-xs">
+                <img class="w-full h-[15rem] absolute top-0 start-0" src="/static/{{fname}}" alt="Image Description">
+            </div>
+            <div class="flex flex-wrap">
+                <div class="p-4 flex flex-col h-full sm:p-7">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white">
+                        {{posts.title}}
+                    </h3>
+                    <p class="mt-1 text-gray-500 dark:text-gray-400">
+                        {{posts.sub_title[0:45]}}...
                     </p>
+                    <div class="mt-5 sm:mt-auto">
+                        <p class="text-xs text-gray-500 dark:text-gray-500">
+                            Posted admin at {{posts.date}}
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </a>
-</div>
+        </a>
+    </div>
     {% endfor %}
+</div>
+
+<!-- Buttons previous and next -->
+<div class="flex flex-row justify-between mx-28 -translate-y-[7.75rem]">
+    <a href="{{prev}}">
+    <button type="submit"
+        class="text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-5 text-center inline-flex items-center dark:bg-gray-900 dark:hover:bg-gray-800  dark:focus:ring-gray-800 ">
+        Previous
+        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M1 5h12m0 0L9 1m4 4L9 9" />
+        </svg>
+    </button></a>
+
+    <a href="{{next}}">
+    <button type="submit"
+        class="text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-5 text-center inline-flex items-center dark:bg-gray-900 dark:hover:bg-gray-800  dark:focus:ring-gray-800 ">
+        Next     
+        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M1 5h12m0 0L9 1m4 4L9 9" />
+        </svg>
+    </button></a>
 </div>
 
 {% endblock home %}

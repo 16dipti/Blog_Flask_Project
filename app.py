@@ -1,6 +1,9 @@
 from flask import Flask,render_template, request, session, redirect
 from flask_mail import Mail
 import datetime
+import os
+import math
+from werkzeug.utils import secure_filename
 from db import db
 from models.contact import Contact 
 from models.post import Posts 
@@ -33,8 +36,27 @@ db.init_app(app)
 # home page route
 @app.route("/")
 def home():
-    post = Posts.query.filter_by().all()[0:params['no_of_post']]
-    return render_template("home.html", params=params, post=post)
+    post = Posts.query.filter_by().all()
+    page = request.args.get('page')
+    last = math.ceil(len(post)/int(params['no_of_post']))
+    if (not str(page).isnumeric()):
+        page = 1
+
+    page = int(page)
+    post = post[(page - 1) * int(params['no_of_post']): (page-1)*int(params['no_of_post'])+int(params['no_of_post'])]
+
+    if page==1:
+        prev = "#"
+        next = "/?page="+str(page+1)
+    elif page==last:
+        prev = "/?page="+str(page-1)
+        next = "#"
+    else:
+        prev = "/?page="+str(page-1)
+        next = "/?page="+str(page+1)
+
+
+    return render_template("home.html", params=params, post=post, prev=prev, next=next)
 
 # about us page route 
 @app.route("/about")
@@ -58,6 +80,7 @@ def edit(sno):
                 post = Posts(title=box_title, sub_title=sub_title, slug=slug, content=content, img_file=img, date=date)
                 db.session.add(post)
                 db.session.commit()
+                return redirect('/dashboard')
             else:
                 post = Posts.query.filter_by(sno=sno).first()
                 post.title = box_title
@@ -68,12 +91,37 @@ def edit(sno):
                 post.date = date
                 db.session.commit()
 
-                return redirect('/edit/'+ sno)
+                return redirect('/dashboard')
+            
             
         post = Posts.query.filter_by(sno=sno).first()
         return render_template('edit.html', params=params, post=post)
 
     return render_template("edit.html", params=params)
+
+@app.route('/uploader', methods=['GET', 'POST'])
+def uploader():
+    if ('user' in session and session['user'] == params['admin_user']):
+        if request.method == 'POST':
+            f = request.files['image']
+            f.save(os.path.join(params['upload_location'], secure_filename(f.filename)))
+            return "Uploaded"
+        
+
+        
+@app.route("/delete/<string:sno>", methods=['GET', 'POST'])
+def delete(sno):
+    if ('user' in session and session['user'] == params['admin_user']):
+        posts = Posts.query.filter_by(sno=sno).first()
+        db.session.delete(posts)
+        db.session.commit()
+        return redirect('/dashboard')
+
+
+@app.route("/logout")
+def log_out():
+    session.pop('user')
+    return redirect('/dashboard')
 
 
 # dashboard page route

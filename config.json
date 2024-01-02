@@ -7,8 +7,9 @@
         "blog_name": "BeyondBoundsBlog",
         "gmail_user": "m29649927@gmail.com",
         "gmail_password": "oznehgqhbudtuvci",
-        "no_of_post": 4,
+        "no_of_post": 2,
         "admin_user": "idiot",
-        "admin_password": "mera_idiot"
+        "admin_password": "mera_idiot",
+        "upload_location": "C:\\Users\\Admin\\OneDrive\\Desktop\\Blog\\static"
     }
 }
