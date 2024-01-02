@@ -58,10 +58,13 @@ def home():
 
     return render_template("home.html", params=params, post=post, prev=prev, next=next)
 
+
+
 # about us page route 
 @app.route("/about")
 def about():
     return render_template("about.html", params=params)
+
 
 
 # edit page route
@@ -99,6 +102,8 @@ def edit(sno):
 
     return render_template("edit.html", params=params)
 
+
+# Upload page
 @app.route('/uploader', methods=['GET', 'POST'])
 def uploader():
     if ('user' in session and session['user'] == params['admin_user']):
@@ -108,7 +113,7 @@ def uploader():
             return "Uploaded"
         
 
-        
+# Delete page
 @app.route("/delete/<string:sno>", methods=['GET', 'POST'])
 def delete(sno):
     if ('user' in session and session['user'] == params['admin_user']):
@@ -118,10 +123,14 @@ def delete(sno):
         return redirect('/dashboard')
 
 
+
+# logout
 @app.route("/logout")
 def log_out():
     session.pop('user')
     return redirect('/dashboard')
+
+
 
 
 # dashboard page route
@@ -142,6 +151,8 @@ def dashbord():
             return render_template('dashboard.html', params=params, post = post)
 
     return render_template("login.html", params=params)
+
+
 
 
 # contact form route
@@ -174,6 +185,8 @@ def contact():
 
         
     return render_template("contact.html", params=params)
+
+
 
 
 # post page route
