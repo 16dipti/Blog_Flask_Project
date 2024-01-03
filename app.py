@@ -5,8 +5,8 @@ import os
 import math
 from werkzeug.utils import secure_filename
 from db import db
-from models.contact import Contact 
-from models.post import Posts 
+from models.contact import Contacts 
+from models.post import Post 
 import json
 
 loacal_server = True
@@ -33,37 +33,34 @@ else:
 db.init_app(app)
 
 
+
 # home page route
 @app.route("/")
 def home():
-    post = Posts.query.filter_by().all()
+    posts = Post.query.filter_by().all()
+    last = math.ceil(len(posts)/int(params['no_of_post']))
+
     page = request.args.get('page')
-    last = math.ceil(len(post)/int(params['no_of_post']))
+
     if (not str(page).isnumeric()):
         page = 1
-
+    
     page = int(page)
-    post = post[(page - 1) * int(params['no_of_post']): (page-1)*int(params['no_of_post'])+int(params['no_of_post'])]
-
+    posts = posts[(page-1)*int(params['no_of_post']):(page-1)*int(params['no_of_post'])+ int(params['no_of_post'])]
     if page==1:
         prev = "#"
-        next = "/?page="+str(page+1)
+        next = "/?page="+ str(page+1)
     elif page==last:
-        prev = "/?page="+str(page-1)
+        prev = "/?page="+ str(page-1)
         next = "#"
     else:
-        prev = "/?page="+str(page-1)
-        next = "/?page="+str(page+1)
+        prev = "/?page="+ str(page-1)
+        next = "/?page="+ str(page+1)
+    
+    return render_template('new_home.html', params=params, posts=posts, prev=prev, next=next)
 
 
-    return render_template("home.html", params=params, post=post, prev=prev, next=next)
 
-
-
-# about us page route 
-@app.route("/about")
-def about():
-    return render_template("about.html", params=params)
 
 
 
@@ -80,12 +77,12 @@ def edit(sno):
             date = datetime.datetime.now()
 
             if sno == "0":
-                post = Posts(title=box_title, sub_title=sub_title, slug=slug, content=content, img_file=img, date=date)
+                post = Post(title=box_title, sub_title=sub_title, slug=slug, content=content, img_file=img, date=date)
                 db.session.add(post)
                 db.session.commit()
                 return redirect('/dashboard')
             else:
-                post = Posts.query.filter_by(sno=sno).first()
+                post = Post.query.filter_by(sno=sno).first()
                 post.title = box_title
                 post.sub_title = sub_title
                 post.slug = slug
@@ -97,8 +94,8 @@ def edit(sno):
                 return redirect('/dashboard')
             
             
-        post = Posts.query.filter_by(sno=sno).first()
-        return render_template('edit.html', params=params, post=post)
+        post = Post.query.filter_by(sno=sno).first()
+        return render_template('edit.html', params=params, post=post, sno=sno)
 
     return render_template("edit.html", params=params)
 
@@ -117,7 +114,7 @@ def uploader():
 @app.route("/delete/<string:sno>", methods=['GET', 'POST'])
 def delete(sno):
     if ('user' in session and session['user'] == params['admin_user']):
-        posts = Posts.query.filter_by(sno=sno).first()
+        posts = Post.query.filter_by(sno=sno).first()
         db.session.delete(posts)
         db.session.commit()
         return redirect('/dashboard')
@@ -132,12 +129,11 @@ def log_out():
 
 
 
-
 # dashboard page route
 @app.route("/dashboard", methods=['GET', 'POST'])
 def dashbord():
     if ('user' in session and session['user'] == params['admin_user']):
-        post =  Posts.query.all()
+        post =  Post.query.all()
         return render_template('dashboard.html', params=params, post = post)
 
 
@@ -147,11 +143,10 @@ def dashbord():
 
         if (username == params['admin_user'] and userpass == params['admin_password']):
             session["user"] = username
-            post =  Posts.query.all()
+            post =  Post.query.all()
             return render_template('dashboard.html', params=params, post = post)
 
     return render_template("login.html", params=params)
-
 
 
 
@@ -165,7 +160,7 @@ def contact():
         message = request.form.get('msg')
         email = request.form.get('email')
 
-        entry = Contact(
+        entry = Contacts(
             name=name, 
             phone_no=phone,
             date=datetime.datetime.now(),  
@@ -184,15 +179,14 @@ def contact():
         db.session.commit()
 
         
-    return render_template("contact.html", params=params)
-
+    return render_template("new_home.html", params=params)
 
 
 
 # post page route
 @app.route("/post/<string:post_slug>", methods=['GET'])
 def post(post_slug):
-    post = Posts.query.filter_by(slug=post_slug).first()
+    post = Post.query.filter_by(slug=post_slug).first()
     return render_template("post.html", params=params, post=post, p=True)
 
 if __name__ == "__main__":

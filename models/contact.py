@@ -1,7 +1,7 @@
 from db import db
 
 
-class Contact(db.Model):
+class Contacts(db.Model):
     # sno, name, phone_no, message, date, email
     sno = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)

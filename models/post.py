@@ -1,6 +1,6 @@
 from db import db 
 
-class Posts(db.Model):
+class Post(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     sub_title = db.Column(db.String(80), nullable=False)
