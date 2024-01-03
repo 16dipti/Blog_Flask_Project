@@ -125,7 +125,7 @@ def delete(sno):
 @app.route("/logout")
 def log_out():
     session.pop('user')
-    return redirect('/dashboard')
+    return redirect('/')
 
 
 
